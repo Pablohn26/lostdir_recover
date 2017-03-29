@@ -94,15 +94,20 @@ def handle_mv(filename, dir):
 
 
 seen_types = {}
-known_types = {'audio/mpeg': handle_mp3,
-               'image/jpeg': lambda fn: handle_mv(fn, 'jpg'),
+known_types = {'application/octet-stream': handle_mp3,
                'application/ogg': lambda fn: handle_mv(fn, 'ogg'),
+               'application/pdf': lambda fn: handle_mv(fn, 'pdf'),
+               'audio/mpeg': handle_mp3,
                'audio/mp4': handle_mp4,
+               'audio/ogg': lambda fn: handle_mv(fn, 'ogg'),
+               'audio/x-hx-aac-adts': lambda fn: handle_mv(fn, 'aac'),
+               'audio/x-m4a': lambda fn: handle_mv(fn, 'm4a'),
                'audio/x-wav': lambda fn: handle_mv(fn, 'wav'),
+               'image/jpeg': lambda fn: handle_mv(fn, 'jpg'),
                'image/png': lambda fn: handle_mv(fn, 'png'),
-               'video/mp4': lambda fn: handle_mv(fn, 'mp4'),
                'text/plain': lambda fn: handle_mv(fn, 'txt'),
-               'application/octet-stream': handle_mp3,
+               'video/mp4': lambda fn: handle_mv(fn, 'mp4'),
+               'video/x-m4v': lambda fn: handle_mv(fn, 'm4v'),
                }
 
 
