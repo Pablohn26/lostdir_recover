@@ -89,8 +89,8 @@ def handle_mv(filename, dir):
     #os.renames(filename, final_path)
     if not os.path.isdir(os.path.dirname(final_path)):
         os.makedirs(os.path.dirname(final_path))
-    shutil.copy(filename, final_path)
     print "Copying", filename, final_path
+    shutil.copy(filename, final_path)
 
 
 seen_types = {}
