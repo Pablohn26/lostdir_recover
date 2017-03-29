@@ -23,7 +23,7 @@ recover_dir = args.destination
 
 
 #### Handlers
-def handle_mp3(filename):
+def handle_mp3(filename, dir):
     mp3_dir = os.path.join(recover_dir, 'mp3')
     #mp3 = MP3(filename)
     try:
@@ -48,14 +48,10 @@ def handle_mp3(filename):
     artist_dir = os.path.join(mp3_dir, artist)
     final_path = os.path.join(artist_dir, album, track_file)
 
-    #os.renames(filename, final_path)
-    if not os.path.isdir(os.path.dirname(final_path)):
-        os.makedirs(os.path.dirname(final_path))
-    print "Copying", filename, final_path
-    shutil.copy(filename, final_path)
+    handle_mv(filename, dir)
 
 
-def handle_mp4(filename):
+def handle_mp4(filename, dir):
     mp4_dir = os.path.join(recover_dir, 'mp3')
     mp4 = EasyMP4(filename)
     artist = (mp4.get('artist', ['noartist']))[0]
@@ -76,11 +72,7 @@ def handle_mp4(filename):
     artist_dir = os.path.join(mp4_dir, artist)
     final_path = os.path.join(artist_dir, album, track_file)
 
-    #os.renames(filename, final_path)
-    if not os.path.isdir(os.path.dirname(final_path)):
-        os.makedirs(os.path.dirname(final_path))
-    print "Copying", filename, final_path
-    shutil.copy(filename, final_path)
+    handle_mv(filename, dir)
 
 
 def handle_mv(filename, dir):
@@ -94,11 +86,11 @@ def handle_mv(filename, dir):
 
 
 seen_types = {}
-known_types = {'application/octet-stream': handle_mp3,
+known_types = {'application/octet-stream': lambda fn: handle_mp3(fn, 'mp3'),
                'application/ogg': lambda fn: handle_mv(fn, 'ogg'),
                'application/pdf': lambda fn: handle_mv(fn, 'pdf'),
-               'audio/mpeg': handle_mp3,
-               'audio/mp4': handle_mp4,
+               'audio/mpeg': lambda fn: handle_mp3(fn, 'mpeg'),
+               'audio/mp4': lambda fn: handle_mp4(fn, 'mp4'),
                'audio/ogg': lambda fn: handle_mv(fn, 'ogg'),
                'audio/x-hx-aac-adts': lambda fn: handle_mv(fn, 'aac'),
                'audio/x-m4a': lambda fn: handle_mv(fn, 'm4a'),
