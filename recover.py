@@ -23,6 +23,10 @@ recover_dir = args.destination
 
 
 #### Handlers
+#def handle_mp3(filename, dir):
+
+
+
 def handle_mp3(filename, dir):
     mp3_dir = os.path.join(recover_dir, 'mp3')
     #mp3 = MP3(filename)
@@ -47,8 +51,9 @@ def handle_mp3(filename, dir):
 
     artist_dir = os.path.join(mp3_dir, artist)
     final_path = os.path.join(artist_dir, album, track_file)
+    
+    handle_transfer(filename, final_path)
 
-    handle_mv(filename, dir)
 
 
 def handle_mp4(filename, dir):
@@ -72,17 +77,20 @@ def handle_mp4(filename, dir):
     artist_dir = os.path.join(mp4_dir, artist)
     final_path = os.path.join(artist_dir, album, track_file)
 
-    handle_mv(filename, dir)
+    handle_transfer(filename, final_path)
+
+
+def handle_transfer(origin,destination):
+    if not os.path.isdir(os.path.dirname(destination)):
+        os.makedirs(os.path.dirname(destination))
+    print "Copying", origin, destination
+    shutil.copy(origin, destination)
 
 
 def handle_mv(filename, dir):
     _fn = '%s.%s' % (os.path.basename(filename), dir)
     final_path = os.path.join(recover_dir, dir, _fn)
-    #os.renames(filename, final_path)
-    if not os.path.isdir(os.path.dirname(final_path)):
-        os.makedirs(os.path.dirname(final_path))
-    print "Copying", filename, final_path
-    shutil.copy(filename, final_path)
+    handle_transfer(filename, final_path)
 
 
 seen_types = {}
