@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 #import sys
 import re
 import os
@@ -50,8 +51,8 @@ def handle_mp3(filename):
     #os.renames(filename, final_path)
     if not os.path.isdir(os.path.dirname(final_path)):
         os.makedirs(os.path.dirname(final_path))
+    print "Copying", filename, final_path
     shutil.copy(filename, final_path)
-    print final_path
 
 
 def handle_mp4(filename):
@@ -78,8 +79,8 @@ def handle_mp4(filename):
     #os.renames(filename, final_path)
     if not os.path.isdir(os.path.dirname(final_path)):
         os.makedirs(os.path.dirname(final_path))
+    print "Copying", filename, final_path
     shutil.copy(filename, final_path)
-    print final_path
 
 
 def handle_mv(filename, dir):
@@ -89,7 +90,7 @@ def handle_mv(filename, dir):
     if not os.path.isdir(os.path.dirname(final_path)):
         os.makedirs(os.path.dirname(final_path))
     shutil.copy(filename, final_path)
-    print "Renamed", filename, final_path
+    print "Copying", filename, final_path
 
 
 seen_types = {}
