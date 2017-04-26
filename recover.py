@@ -23,8 +23,17 @@ recover_dir = args.destination
 
 
 #### Handlers
-#def handle_mp3(filename, dir):
-
+def handle_octet(filename, dir):
+    with magic.Magic() as m:
+        type = m.id_filename(filename)       
+    #    print "Filename: "+filename + " TYPE: "+type
+        if type == "Android Backup, Compressed, Not-Encrypted":
+            handle_mv(filename,'ab')
+        if type == "data":
+            handle_mv(filename,'bin')
+        if type == "ISO Media":
+            handle_mv(filename,'media')
+        else: handle_mp3(filename, 'mp3')
 
 
 def handle_mp3(filename, dir):
@@ -94,7 +103,7 @@ def handle_mv(filename, dir):
 
 
 seen_types = {}
-known_types = {'application/octet-stream': lambda fn: handle_mp3(fn, 'mp3'),
+known_types = {'application/octet-stream': lambda fn: handle_octet(fn, 'mp3'),
                'application/ogg': lambda fn: handle_mv(fn, 'ogg'),
                'application/pdf': lambda fn: handle_mv(fn, 'pdf'),
                'audio/mpeg': lambda fn: handle_mp3(fn, 'mpeg'),
